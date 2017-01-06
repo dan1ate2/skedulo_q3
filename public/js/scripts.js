@@ -1,31 +1,31 @@
 // handler
 document.body.onload = function(){
-	getData();
-	printDataInTable();
+	// function peopleInfo() {
+	// 	return getData();
+	// };
+	var peopleInfo;
+	peopleInfo = getData();
+	console.log("peopleInfo: "+peopleInfo); // [debug]
+	printDataInTable(peopleInfo);
 };
 
-// get json data from api
+// get people data from api
 function getData() {
 	console.log("getData function fired!"); // [debug]
 	var page = ["people", "interests", "skills", "richest"];
 	var groupData = [];
 
-	// setup parameters to prepare for ajax calls
+	// iterate through each group/api get function
 	page.forEach(function(p){
 		var params;
-		switch(p) {
-			case "interests":
-				params = "personIds=1,2,3";
-				break;
-			case "skills":
-				params = "personIds=1,2,3";
-				break;
-			default:
-				params = "";
-				break;
-		}
+		var request;
+
+		// setup parameters to prepare for ajax calls
+		if (p == page[1] || p == page[2]) params = "personIds=1,2,3"; // if interests or skills
+		else params = ""; // must be richest or people
+		
 		// ajax calls
-		var request = $.ajax({
+		request = $.ajax({
 			url: "/" + p,
 			dataType: "json",
 			data: params
@@ -37,9 +37,30 @@ function getData() {
 			console.log(data); // [debug]
 		});
 	});
+	return groupData;
 }
 
-// print data in html table
-function printDataInTable() {
+// print people data in html table
+function printDataInTable(groups) {
+	table = document.getElementById("peopleTable");
 	console.log("printDataInTable function fired!"); // [debug]
+	// for each object in groups array find which group and append to table
+	groups.forEach(function (g){
+		// if group array
+		if (g[0]) {
+			switch(g[0]) {
+				case page[0]: // people
+					table.insertRow(-1);
+					break;
+				case page[0]: // interests
+					table.insertRow(-1);
+					break;
+				case page[0]: // skills
+					table.insertRow(-1);
+					break;
+				default: // must be richest
+					break;
+			}
+		}
+	});
 }
