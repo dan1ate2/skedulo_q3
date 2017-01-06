@@ -1,17 +1,14 @@
 // handler
 document.body.onload = function(){
-	// function peopleInfo() {
-	// 	return getData();
-	// };
 	var peopleInfo;
 	peopleInfo = getData();
-	console.log("peopleInfo: "+peopleInfo); // [debug]
+console.log("peopleInfo: "+peopleInfo); // [debug]
 	printDataInTable(peopleInfo);
 };
 
 // get people data from api
 function getData() {
-	console.log("getData function fired!"); // [debug]
+console.log("getData function fired.."); // [debug]
 	var page = ["people", "interests", "skills", "richest"];
 	var groupData = [];
 
@@ -34,7 +31,7 @@ function getData() {
 			// add each object to people data array
 			if (p != "richest") data.unshift(p); // add group name to top of object array
 			groupData.push(data); // add to array of groups 
-			console.log(data); // [debug]
+console.log(data); // [debug]
 		});
 	});
 	return groupData;
@@ -42,8 +39,8 @@ function getData() {
 
 // print people data in html table
 function printDataInTable(groups) {
+console.log("printDataInTable function fired.."); // [debug]
 	table = document.getElementById("peopleTable");
-	console.log("printDataInTable function fired!"); // [debug]
 	// for each object in groups array find which group and append to table
 	groups.forEach(function (g){
 		// if group array
