@@ -47,13 +47,13 @@ console.log("printDataInTable function fired.."); // [debug]
 		if (g[0]) {
 			switch(g[0]) {
 				case page[0]: // people
-					table.insertRow(-1);
+					// table.insertRow(-1);
 					break;
 				case page[0]: // interests
-					table.insertRow(-1);
+					// table.insertRow(-1);
 					break;
 				case page[0]: // skills
-					table.insertRow(-1);
+					// table.insertRow(-1);
 					break;
 				default: // must be richest
 					break;
