@@ -63,13 +63,36 @@ function printDataInTable(peopleData) {
 			{Company: rows.insertCell(1)},
 			{Skills: rows.insertCell(2)},
 			{Interests: rows.insertCell(3)}];
-		// test cells
+		
 		$.each(peopleData, function (key, val){
+			// set names and company in cells
 			if (val[0] == "people") {
 				tIndex[0].Name.innerHTML = val[i].name;
-				return false;
+				tIndex[1].Company.innerHTML = val[i].org;
+			}
+			// set skills in cells
+			else if (val[0] == "skills") {
+				var skills = "";
+				// check id's to match skills to person
+				for (j = 1; j < val.length; j++) {
+					if (val[j].personId == i) {
+						skills += val[j].name;
+					}
+				}
+				tIndex[2].Skills.innerHTML = skills;
+			}
+			// check id's to match interests to person
+			else if(val[0] == "interests") {
+				var interests = "";
+				for (j = 1; j < val.length; j++) {
+					if (val[j].personId == i) {
+						interests += val[j].name;
+					}
+				}
+				tIndex[3].Interests.innerHTML = interests;
 			}
 		});
+		// bold the richest person
 	}
 	
 	// for each object in peopleData array find which group and append to table
