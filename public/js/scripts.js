@@ -40,33 +40,51 @@ function getData() {
 }
 
 // print people data in html table
-function printDataInTable(groups) {
+function printDataInTable(peopleData) {
 	console.log("printDataInTable function fired.."); // [debug]
-	table = document.getElementById("peopleTable");
-	// for each object in groups array find which group and append to table
-	groups.forEach(function (g){
+	var table = document.getElementById("peopleTable");
+	var numRows;
+	var rows;
+	var tableIndex;
+
+	// count number of people for rows to create
+	$.each(peopleData, function (key, val){
+		if (val[0] == "people") {
+			numRows = val.length - 1; // count people minus category name
+			return false;
+		}
+	});
+
+	// create rows and cells
+	for (i = 1; i <= numRows; i++) {
+		var tIndex;
+		rows = table.insertRow(i);
+		tIndex = [{Name: rows.insertCell(0)},
+			{Company: rows.insertCell(1)},
+			{Skills: rows.insertCell(2)},
+			{Interests: rows.insertCell(3)}];
+		// test cells
+		$.each(peopleData, function (key, val){
+			if (val[0] == "people") {
+				tIndex[0].Name.innerHTML = val[i].name;
+				return false;
+			}
+		});
+	}
+	
+	// for each object in peopleData array find which group and append to table
+	peopleData.forEach(function (g){
 		// if group array
 		if (g[0]) { // if an array
-			switch(g[0]) {
-				case category[0]: // people
-				console.log("people.."); // [debug]
-					// table.insertRow(-1);
-					break;
-				case category[1]: // interests
-				console.log("interests.."); // [debug]
-					// table.insertRow(-1);
-					break;
-				case category[2]: // skills
-				console.log("skills.."); // [debug]
-					// table.insertRow(-1);
-					break;
-				default: // must be richest
-				console.log("default.."); // [debug]
-					break;
-			}
+			console.log("category is "+g[0]+".."); // [debug]
+			// figure out which column by first array value
+			// for each person object, print their category values
+			// 
 		}
 		else if ("richestPerson" in g) { // must be richest person ref
 			console.log("richest person.."); // [debug]
+			// select the correct row by id and bold it
+			//
 		}
 	});
 }
