@@ -45,12 +45,21 @@ function printDataInTable(peopleData) {
 	var table = document.getElementById("peopleTable");
 	var numRows;
 	var rows;
-	var tableIndex;
+	var richest;
 
-	// count number of people for rows to create
+	// count number of people for rows to create & get richest id
 	$.each(peopleData, function (key, val){
+		if (val.richestPerson) richest = val.richestPerson;
 		if (val[0] == "people") {
 			numRows = val.length - 1; // count people minus category name
+			// check if both rows and richest already found
+			// if (typeof numRows === 'undefined' || numRows === null
+			// 	&& typeof richest === 'undefined' || richest === null) {
+			// 	return false;
+			// }
+		}
+		// check if both rows and richest already found
+		if (numRows && richest) {
 			return false;
 		}
 	});
@@ -73,20 +82,33 @@ function printDataInTable(peopleData) {
 			// set skills in cells
 			else if (val[0] == "skills") {
 				var skills = "";
+				var firstSkill = true; // flag
+
 				// check id's to match skills to person
-				for (j = 1; j < val.length; j++) {
-					if (val[j].personId == i) {
+				for (j = 1; j < val.length; j++) { // first value
+					if (val[j].personId == i && firstSkill) {
 						skills += val[j].name;
+						firstSkill = false;
+					}
+					else if (val[j].personId == i) { // all values after first
+						skills += ", "+val[j].name;
 					}
 				}
 				tIndex[2].Skills.innerHTML = skills;
 			}
-			// check id's to match interests to person
+			// set interests in cells
 			else if(val[0] == "interests") {
 				var interests = "";
+				var firstInterest = true; // flag
+
+				// check id's to match interests to person
 				for (j = 1; j < val.length; j++) {
-					if (val[j].personId == i) {
-						interests += val[j].name;
+					if (val[j].personId == i && firstInterest) {
+						interests += val[j].name; // first value
+						firstInterest = false;
+					}
+					else if (val[j].personId == i) {
+						interests += ", "+val[j].name; // all values after first
 					}
 				}
 				tIndex[3].Interests.innerHTML = interests;
@@ -94,20 +116,4 @@ function printDataInTable(peopleData) {
 		});
 		// bold the richest person
 	}
-	
-	// for each object in peopleData array find which group and append to table
-	peopleData.forEach(function (g){
-		// if group array
-		if (g[0]) { // if an array
-			console.log("category is "+g[0]+".."); // [debug]
-			// figure out which column by first array value
-			// for each person object, print their category values
-			// 
-		}
-		else if ("richestPerson" in g) { // must be richest person ref
-			console.log("richest person.."); // [debug]
-			// select the correct row by id and bold it
-			//
-		}
-	});
 }
