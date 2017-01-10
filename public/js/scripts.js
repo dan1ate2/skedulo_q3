@@ -1,3 +1,7 @@
+// Dan Hogan
+// Skedulo Q3
+// Test question for Level 1 Support Position
+
 var category = ["people", "interests", "skills", "richest"];
 
 // handler
@@ -7,7 +11,6 @@ $(document).ready(function() {
 
 // get people data from api
 function getData() {
-	console.log("getData function fired.."); // [debug]
 	var peopleData = [];
 	var request;
 
@@ -29,7 +32,6 @@ function getData() {
 			// add each object to people data array
 			if (c != "richest") data.unshift(c); // add group name to top of object array
 			peopleData.push(data); // add to array of people data
-			console.log(data); // [debug]
 		}).done(function() {
 			// if peopleData array same length as category array, all data ready
 			if (peopleData.length == category.length) printDataInTable(peopleData);
@@ -41,7 +43,6 @@ function getData() {
 
 // print people data in html table
 function printDataInTable(peopleData) {
-	console.log("printDataInTable function fired.."); // [debug]
 	var table = document.getElementById("peopleTable");
 	var numRows;
 	var rows;
