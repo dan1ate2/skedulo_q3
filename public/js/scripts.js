@@ -77,14 +77,9 @@ function printDataInTable(peopleData) {
 			var isRichest = false; // flag
 
 			if (Array.isArray(val)) { // if not richestPerson object
-				// check current data is for richest person
-				if (val[i].id) { // person data
-					isRichest = checkIfRichest(val[i].id, richest);
-				}
-				else if (val[i].personId) { // skills or interests data
-// problem here where it returns true for wrong person					
-					isRichest = checkIfRichest(val[i].personId, richest);
-				}
+				
+				// if person data check if richest
+				if (val[i].id) isRichest = checkIfRichest(val[i].id, richest);
 
 				// set names and company in cells
 				if (val[0] == "people") {
@@ -104,6 +99,8 @@ function printDataInTable(peopleData) {
 						if (val[j].personId == i && firstSkill) {
 							skills += val[j].name;
 							firstSkill = false;
+							// check if skills data from richest person
+							isRichest = checkIfRichest(val[j].personId, richest);
 						}
 						else if (val[j].personId == i) { // all values after first
 							skills += ", "+val[j].name;
@@ -122,6 +119,8 @@ function printDataInTable(peopleData) {
 						if (val[j].personId == i && firstInterest) {
 							interests += val[j].name; // first value
 							firstInterest = false;
+							// check if interests data from richest person
+							isRichest = checkIfRichest(val[j].personId, richest);
 						}
 						else if (val[j].personId == i) {
 							interests += ", "+val[j].name; // all values after first
