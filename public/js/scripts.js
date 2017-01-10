@@ -52,11 +52,6 @@ function printDataInTable(peopleData) {
 		if (val.richestPerson) richest = val.richestPerson;
 		if (val[0] == "people") {
 			numRows = val.length - 1; // count people minus category name
-			// check if both rows and richest already found
-			// if (typeof numRows === 'undefined' || numRows === null
-			// 	&& typeof richest === 'undefined' || richest === null) {
-			// 	return false;
-			// }
 		}
 		// check if both rows and richest already found
 		if (numRows && richest) {
@@ -72,48 +67,75 @@ function printDataInTable(peopleData) {
 			{Company: rows.insertCell(1)},
 			{Skills: rows.insertCell(2)},
 			{Interests: rows.insertCell(3)}];
+		var b = { // bold for richest
+			open: "<strong>",
+			close: "</strong>"
+		};
 		
+		// read each people data object and put into cells
 		$.each(peopleData, function (key, val){
-			// set names and company in cells
-			if (val[0] == "people") {
-				tIndex[0].Name.innerHTML = val[i].name;
-				tIndex[1].Company.innerHTML = val[i].org;
-			}
-			// set skills in cells
-			else if (val[0] == "skills") {
-				var skills = "";
-				var firstSkill = true; // flag
+			var isRichest = false; // flag
 
-				// check id's to match skills to person
-				for (j = 1; j < val.length; j++) { // first value
-					if (val[j].personId == i && firstSkill) {
-						skills += val[j].name;
-						firstSkill = false;
-					}
-					else if (val[j].personId == i) { // all values after first
-						skills += ", "+val[j].name;
-					}
+			if (Array.isArray(val)) { // if not richestPerson object
+				// check current data is for richest person
+				if (val[i].id) { // person data
+					isRichest = checkIfRichest(val[i].id, richest);
 				}
-				tIndex[2].Skills.innerHTML = skills;
-			}
-			// set interests in cells
-			else if(val[0] == "interests") {
-				var interests = "";
-				var firstInterest = true; // flag
+				else if (val[i].personId) { // skills or interests data
+// problem here where it returns true for wrong person					
+					isRichest = checkIfRichest(val[i].personId, richest);
+				}
 
-				// check id's to match interests to person
-				for (j = 1; j < val.length; j++) {
-					if (val[j].personId == i && firstInterest) {
-						interests += val[j].name; // first value
-						firstInterest = false;
-					}
-					else if (val[j].personId == i) {
-						interests += ", "+val[j].name; // all values after first
-					}
+				// set names and company in cells
+				if (val[0] == "people") {
+					// tIndex[0].Name.innerHTML = val[i].name;
+					isRichest ? tIndex[0].Name.innerHTML = b.open+val[i].name+b.close 
+						: tIndex[0].Name.innerHTML = val[i].name;
+					isRichest ? tIndex[1].Company.innerHTML = b.open+val[i].org+b.close 
+						: tIndex[1].Company.innerHTML = val[i].org;
 				}
-				tIndex[3].Interests.innerHTML = interests;
+				// set skills in cells
+				else if (val[0] == "skills") {
+					var skills = "";
+					var firstSkill = true; // flag
+
+					// check id's to match skills to person
+					for (j = 1; j < val.length; j++) { // first value
+						if (val[j].personId == i && firstSkill) {
+							skills += val[j].name;
+							firstSkill = false;
+						}
+						else if (val[j].personId == i) { // all values after first
+							skills += ", "+val[j].name;
+						}
+					}
+					isRichest ? tIndex[2].Skills.innerHTML = b.open+skills+b.close 
+						: tIndex[2].Skills.innerHTML = skills;
+				}
+				// set interests in cells
+				else if(val[0] == "interests") {
+					var interests = "";
+					var firstInterest = true; // flag
+
+					// check id's to match interests to person
+					for (j = 1; j < val.length; j++) {
+						if (val[j].personId == i && firstInterest) {
+							interests += val[j].name; // first value
+							firstInterest = false;
+						}
+						else if (val[j].personId == i) {
+							interests += ", "+val[j].name; // all values after first
+						}
+					}
+					isRichest ? tIndex[3].Interests.innerHTML = b.open+interests+b.close 
+						: tIndex[3].Interests.innerHTML = interests;
+				}
 			}
 		});
-		// bold the richest person
 	}
+}
+
+// check if richest person
+function checkIfRichest(id, richest) {
+	return (id == richest) ? true : false
 }
